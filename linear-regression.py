@@ -1,27 +1,42 @@
 import numpy as np
-import scipy.stats as stats
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import pandas as pd 
 
+#data loading
 df = pd.read_csv('data/carData.csv')
-year = df['Year']
-selling_price = df['Selling_Price']
+year = df['Year'].values.reshape(-1,1)
+selling_price = df['Selling_Price'].values * 1000
 
-# get linear regression thanks to scipy
-slope, intercept, r_value, p_value, std_err = stats.linregress(year, selling_price)
+#split dataset on 80% data for train and 20% data for test 
+X_train, X_test, y_train, y_test = train_test_split(year, selling_price, test_size=0.2, random_state=0)
+print(X_train.shape)
+print(y_train.shape)
+print(X_test.shape)
+print(y_test.shape)
 
-# results
-print(f"Pente (slope) : {slope}")
-print(f"Ordonnée à l'origine (intercept) : {intercept}")
-print(f"Coefficient de corrélation (r_value) : {r_value}")
-print(f"p-value : {p_value}")
-print(f"Erreur standard : {std_err}")
+#model creation
+model = LinearRegression()
 
+model.fit(X_train,y_train)
 
-# make the linear regression graph
-plt.scatter(year, selling_price, color='blue', label='Données')
-plt.plot(year, slope * year + intercept, color='red', label='Droite de régression')
-plt.xlabel('Year')
-plt.ylabel('Selling Price')
+score = model.score(X_test,y_test)
+print('score '+str(score))
+
+prediction = model.predict(X_test)
+print(f' prediction {prediction} ' )
+
+#we sort the datas to have a right line instead of several peaks
+sorted_indices = np.argsort(X_test.flatten())  
+X_test_sorted = X_test[sorted_indices]
+prediction_sorted = prediction[sorted_indices]
+
+#display with my plot lib
+
+plt.scatter(X_test, y_test, label='Données réelles', color='b')  # Points réels
+plt.plot(X_test_sorted, prediction_sorted, color='r', label='Régression linéaire')  # Droite de régression
+plt.xlabel('Année')
+plt.ylabel('Prix de vente')
 plt.legend()
 plt.show()
