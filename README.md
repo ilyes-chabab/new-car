@@ -1,7 +1,7 @@
 # Contexte :
 
 Nous avons pour but d'estimer le prix d'une voiture d'occasion selon plusieurs critère que nous avons dans le dataset ci-dessous :
-![dataset](pictures\dataset_picture.png)
+![dataset](pictures/dataset_picture.png)
 
 # requis :
 
@@ -48,11 +48,11 @@ En bonus , nous devions créer notre propres class de regression linéaire , pou
 
 Où theta 1 = 
 
-![ theta 1](pictures\theta_1_formula.png)
+![ theta 1](pictures/theta_1_formula.png)
 
 Et theta 0 = 
 
-![ theta 0](pictures\theta_0_formula.png)
+![ theta 0](pictures/theta_0_formula.png)
 
 
 
